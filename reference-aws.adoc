@@ -1,0 +1,165 @@
+= Amazon Web Services Reference
+Shahid Sharif <smsharif@secunoid.com>
+v1.0, 9Nov2018
+:numbered:
+:sectnum:
+:chapter-label:
+:toc:
+:docinfo:
+:docinfo1:
+:docinfo2:
+:description: Amazon Web Services(AWS) Reference
+:keywords: reference,cloud,aws
+:imagesdir: assets/images
+:homepage: https://www.secunoid.com
+
+== Introduction
+
+
+== Identity & Access Management
+* IAM consists of the following:
+** Users
+** Groups
+** Roles
+** Policy Documents
+* Users belong to groups, and groups can be assigned roles.
+* Policy documents can be assigned to Users, Groups, and Roles.
+* Policy documents are made of JSON which is a list key value pairs.
+* IAM is universal.  It does not apply to regions.
+* "Root account" is sinmply the accoutn created when first setup your AWS account.  It has complete Admin access.
+* New Users have NO permissions when first created.
+* New Users are assigned *Access Key ID & Secret Access Keys* when first created.
+* There are not the same as a password, and you cannot use the Access key ID & Secret Access Key to Login in to the console.  You can use this to access AWS via the APIs and Command Line.
+* You only get to view those credentials once.  If you lose them, you have to regenerate them.
+* Always setup Multifactor Authentication on your root account.
+* You can create and customize your owne password rotation policies.
+
+== Simple Storage Service (S3)
+S3 provides developers and IT teams with secure, durable, highly-scalable object storage.  Amazon S3 is easy to use, with a simple web services interface to store and retrieve and amount of data from anywhere on the web.
+
+* S3 is a safe place to store files.
+* It is Object-based storage, objects consist of the following:
+** Key (This is sinply the name of the object)
+** Value (this is simply the data and is made up of a sequence of bytes)
+** Version ID (Important for versioning)
+** Metadata (Data about data you are storing)
+** Sub resources: Access Control Lists
+* The data is spread across multiple devices and facilities.
+* Files can be from 0bytes to 5TB
+* Unlimited storage
+* Files are stored in buckets
+* Each Bucket is a universal namespace. The names are globally unique.
+* URLS are https://<region-name>.amazonaws.com/<bucketname>
+* When you upload a file to S3, you will receive a HTTP 200 code if the upload was successful.
+* New files: Read after Write consistency for PUTS
+* Existing files: For overwrite PUTS and DELETES, can take some time to propagate.
+* Built for 99.99% availability.
+* Amazon Guarantees 99.9% availability.
+* Amazon guarantees 99.999999999% durabiity for S3 information (Eleven 9's)
+* Tiered Storage Available
+** S3 Standard: 99.99% availability, 99.999999999% durability, stored redundantly across multiple devices in multiple facilities, and is designed to sustain the loss of two facilities concurrently.
+** S3-IA(Infrequently Accessed): For data this is accessed less frequently, but requires rapid access when needed. Lower fee than S3, but you a chared a retrieval fee.
+** S3 One zone - IA: Lowe cost option for infrequently accessed data, but do not require the miltiple availablity zone resilience.
+** Glacier: Very cheap, but used for archival only.  Expedited(minutes), Standard(3-5hours), or Bulk(5-12hours).
+* Lifecycle Management for archiving
+* Versioning
+* Encryption
+** Client side 
+** Server side:
+*** Amazon S3 Managed Jeys (SSE-S3)
+*** KMS (SSE-KMS)
+Customer Provided Keys (SSE-C)
+* Control access to buckets using either a bucket ACT or using Bucket Policies
+* BY DEFAULT BUCKETS ARE PRIVATE AND ALL OBJECTS STORED INSIDE THEM ARE PRIVATE
+* Secure your data using Access control lists and bucket policies.
+
+=== Versioning
+* Stores all versions of an object(including all writes and even if you delete an object)
+* Great backup tool
+* Once enabled, Versioning cannot be disabled, only suspended
+* Integrates with Lifecycle rules
+* Versioning's MFA Delete capability, which uses multi-factor authentication, can be used to provide an additional layer of security.
+
+=== Cross Region Replication
+* Versioning must be enabled on both the source and destination
+* Regions must be unique
+* Files in an existing bucket are not replicated automatically.  All subsequent updated files will be replicated automatically.
+* Your cannot replicate to multiple buckets or use daisy chaining(at this time)
+* Delete markers are replicated.
+* Deleting individual versions or delete markers will not be replicated
+* Understand what Cross Region Replication is at high level
+
+=== Lifecycle Management
+* Can be used in conjunction with versioning
+* Can be applied to current versions and previous versions
+* Following actions can now be done:
+** Transition to the Standard - Infrequent Access Storage Class (30 days after the creation date)
+** Archive to the Glacier Storage Class (30 days after IA, if relevant)
+** Permanently Delete
+
+== CloudFront
+A content delivery network (CDN) is a system of distributed servers (network) that deliver webpages and other web content to a user based on the georgraphic locations of the user, the origin of the webpage and a content delivery server.
+
+*Edge Location* This is the location where content will be cached.  This is separate to an AWS Region/AZ.
+
+*Origin* This is the origin of all the files that the CDN will distribute.  This can be either an S3 bucket, an EC2 Instance, an Elastic Load Balancer or Route53
+
+*Distribution* This is the name given to the CDN which consists of a collection of  Edge Locations.
+
+* Web Distribution - Typically used for websites
+* RTMP - Used for Media Streaming
+
+CloudFront is optimized to work with other Amazon Web Services, like:
+
+* Amazon Simple Storage Service (Amazon S3)
+* Amazon Elastic Compute Cloud (Amazon EC2)
+* Amazon Elastic Load Balancing
+* Amazon Route 53
+
+Amazon CloudFront also works seamlessly with any non-AWS origin server, which stores the original, definitive versions of your files.
+
+* Edge locations are not just READ only, you can write to them too.
+* Objects are cached for the life of the TTL (Time To Live)
+* You can clear cached objects, but you will be charged.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+== Level 1 Section Title
+The shop is closed on <<monday>> but it opens on <<saturday,Saturday>> every week.
+
+=== Level 2 Section Title
+
+==== Level 3 Section Title
+
+===== Level 4 Section Title
+
+====== Level 5 Section Title
+
+== References
+
+* link:https://powerman.name/doc/asciidoc[Ascii Doctor Cheatsheet]
+* link:https://asciidoctor.org/docs/user-manual/[Ascii Doctor User Manual]
+
+== Glossary
+[glossary]
+    [[monday]]monday::
+    First day of the week.
+
+    [[saturday]]saturday::
+    6th day of the week.
